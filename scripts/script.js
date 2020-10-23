@@ -52,4 +52,10 @@ function isEenNummer(waarde) {
     }
 }
 
-console.log(maakSchoonNummer("hoeveelheidOomsEnTantes")); // Now returns 92 items
+//FIFTH TRY:
+//Covert the NaN-values to zero in stead of removing them. 
+//Found online that using the Unary (+) operator you can convert a number string to a real number and NaN to 0
+//Source: https://medium.com/@nikjohn/cast-to-number-in-javascript-using-the-unary-operator-f4ca67c792ce
+const maakSchonerNummer = (dataSleutel) => deData.map(nummer => +nummer[dataSleutel] || 0);
+
+console.log(maakSchonerNummer("hoeveelheidOomsEnTantes"));
