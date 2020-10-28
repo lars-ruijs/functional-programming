@@ -1,61 +1,78 @@
-console.log("Hello world!");
-
 //The data is loaded from the data.js-file. Thanks to Laurens and Robert for this 'work-around' to use json data locally
 const deData = data;
 
+//Make all "hoeveelheidKledingsstukken" a 'real' number and store it in 'clothingItems'
+const clothingItems = getNumbers("hoeveelheidKledingstukken");
+console.log(clothingItems);
 
-//FIRST TRY: 
-//Log all the values of the "hoeveelheidKledingsstukken"-key in the console, to verify if the dataset is linked correctly.
-for (let i = 0; i < deData.length; i++) {
-    console.log(deData[i].hoeveelheidKledingstukken);
+//Make all "hoeveelheidOomsEnTantes" a 'real' number, convert empty cells to 0 and store it in 'unclesAndAunts'
+const unclesAndAunts = getNumbers("hoeveelheidOomsEnTantes");
+console.log(unclesAndAunts);
+
+//Filter all empty and irrelevant strings from "leuksteCMDVak" and store the array in 'cleanedSubjects'
+const cleanedSubjects = filterEmptyStrings("leuksteCMDVak");
+
+//Find similar subject-names and replace the name to a standard. 
+filterSubjects(cleanedSubjects);
+console.log(cleanedSubjects);
+
+
+////////////////////////
+// ALL THE FUNCTIONS //
+//////////////////////
+
+//Covert string numbers to 'real' numbers and the NaN-values to zero. 
+//Found online that I can use a Unary operator (+) for this
+//Source: https://medium.com/@nikjohn/cast-to-number-in-javascript-using-the-unary-operator-f4ca67c792ce
+function getNumbers(columnName) {
+    return deData.map(surveyObject => +surveyObject[columnName] || 0);
 }
 
-
-//SECOND TRY:
-//Change the strings with numbers to a 'real' number 
-//Using parseInt(), found via: https://gomakethings.com/converting-strings-to-numbers-with-vanilla-javascript/
-function makeInteger(dataKey) {
-    let numberArray = []; //Create empty array
-
-    for (let i = 0; i < deData.length; i++) { //For-loop repeats for each item in the dataset
-        numberArray.push(parseInt(deData[i][dataKey])); //Push() adds the parseInt() generated number to the empty array. Used []-notation to accept strings passed over by the function parameter.  
-    }
-    return numberArray; //Returns the generated array
+//Make an array that converts strings to lowercase and remove empty or irrelevant values. 
+function filterEmptyStrings(columnName) {
+    return deData.map(surveyObject => surveyObject[columnName].toLowerCase()).filter(isEmpty);
 }
 
-console.log(makeInteger("hoeveelheidKledingstukken"));
-
-
-//THIRD TRY:
-//Use map() to generate an array with "string numbers" of a data key, then convert those to real numbers using parseInt(). 
-//Use an arrow funcion. 
-//Thanks to Laurens' lecture about data exploration and the use of map() in an arrow function
-const maakNummer = (dataSleutel) => deData.map(nummer => parseInt(nummer[dataSleutel]));
-
-console.log(maakNummer("hoeveelheidOomsEnTantes"));
-
-
-//FOURTH TRY:
-//Use filter() to clean the number data. Currently it removes the NaN-item(s). 
-//Used MDN to learn about filter() https://developer.mozilla.org/nl/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
-//Thanks to Laurens for explaining how filter() can be used directly with map()
-const maakSchoonNummer = (dataSleutel) => deData.map(nummer => parseInt(nummer[dataSleutel])).filter(isEenNummer);
-
-//This funtion checks if the generated array contains (valid) numbers
-function isEenNummer(waarde) {
-    if (typeof(waarde) === "number" && !isNaN(waarde)) {
-        return true; //Returns the valid numbers 
+//Checks if items in the array are not empty or irrelevant
+function isEmpty(value) {
+    if (value && value != "x" && value != "idk" && value != "kan niet kiezen") {
+        return true; //Return value if it's not empty and is interesting
     }
     else {
-        console.log(`${waarde} has been removed`);
-        return false; //Removes and console.log's the numbers that are not valid
+        return false; //Remove values that are empty or that are not interesting
     }
 }
 
-//FIFTH TRY:
-//Covert the NaN-values to zero in stead of removing them. 
-//Found online that using the Unary (+) operator you can convert a number string to a real number and NaN to 0
-//Source: https://medium.com/@nikjohn/cast-to-number-in-javascript-using-the-unary-operator-f4ca67c792ce
-const maakSchonerNummer = (dataSleutel) => deData.map(nummer => +nummer[dataSleutel] || 0);
-
-console.log(maakSchonerNummer("hoeveelheidOomsEnTantes"));
+//Find names of subjects that are similar and replace the name to a standard.
+//Used splice() documentation from MDN https://developer.mozilla.org/nl/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+function filterSubjects(arrayName) {
+    for (const vak in arrayName) {
+        if (arrayName[vak].includes("front")) {
+            arrayName.splice(vak, 1, "front-end development");
+         }
+         else if (arrayName[vak].includes("inleiding")) {
+            arrayName.splice(vak, 1, "inleiding programmeren");
+         }
+         else if (arrayName[vak].includes("hci")) {
+            arrayName.splice(vak, 1, "HCI");
+         }
+         else if (arrayName[vak].includes("m&") || arrayName[vak].includes("maatschap")) {        
+            arrayName.splice(vak, 1, "maatschappij en interactie");
+        }
+        else if (arrayName[vak].includes("visual") && !arrayName[vak].includes("design") && !arrayName[vak].includes("data")) {        
+            arrayName.splice(vak, 1, "project visual");
+        }
+        else if (arrayName[vak] == "vid" || arrayName[vak].includes("interface")) {        
+            arrayName.splice(vak, 1, "visual interface design");
+        }
+        else if (arrayName[vak].includes("project") && arrayName[vak].includes("indiv") && !arrayName[vak].includes("2")) {        
+            arrayName.splice(vak, 1, "project individueel 1");
+        }
+        else if (arrayName[vak].includes("web") && arrayName[vak].includes("project")) {        
+            arrayName.splice(vak, 1, "project web");
+        }
+        else if (arrayName[vak].includes("app")) {        
+            arrayName.splice(vak, 1, "webapplicaties");
+        }
+     }
+}
