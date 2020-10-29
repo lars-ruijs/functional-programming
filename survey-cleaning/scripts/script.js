@@ -16,6 +16,10 @@ const cleanedSubjects = filterEmptyStrings("leuksteCMDVak");
 filterSubjects(cleanedSubjects);
 console.log(cleanedSubjects);
 
+//Filter all empty and irrelevant strings from "leuksteCMDVak" and store the array in 'cleanedSubjects'
+const dirtyCoordinates = filterEmptyStrings("geboorteplaats");
+const cleanCoordinates = getCoordinates(dirtyCoordinates);
+console.log(cleanCoordinates);
 
 ////////////////////////
 // ALL THE FUNCTIONS //
@@ -75,4 +79,47 @@ function filterSubjects(arrayName) {
             arrayName.splice(vak, 1, "webapplicaties");
         }
      }
+}
+
+//Replace the 'dirty' coordinates with cleaned coordinates and output an array of objects with lat and long as keys
+function getCoordinates(dirtyCoordinates) {
+    
+    //Create empty array
+    const coordinatesArray = [];
+
+    for (const coor in dirtyCoordinates) {
+       
+        //Check if the coordinates are in a 'Degree, Minutes, Seconds'-format
+        //Then: Replace the quotes and degrees by using .replace
+        //RegEx code adapted from: https://stackoverflow.com/questions/7760262/replace-both-double-and-single-quotes-in-javascript-string
+        if (dirtyCoordinates[coor].includes("'")) {
+            const schoner = dirtyCoordinates[coor]
+            .replace(/["EN]+/g, "")
+            .replace(/[°']+/g, " ")
+            .split(" ");
+            const dms = schoner.map(a => parseFloat(a));    
+            coordinatesArray.push(convertDMS2DD(dms[0], dms[1], dms[2], dms[3], dms[4], dms[5])); //Convert to lat/long
+    }
+        //Check if the remaining coordinates are longer than 10 characters, they don't contain any letters (using test()) and it includes a space.
+        //Letter checking code adapted from: https://stackoverflow.com/questions/23476532/check-if-string-contains-only-letters-in-javascript/23476587
+        //Extra information about test() used from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test
+        else if (dirtyCoordinates[coor].length > 10 && /[a-z]+/g.test(dirtyCoordinates[coor]) == false && dirtyCoordinates[coor].includes(" ")) {
+            const schoner = dirtyCoordinates[coor]
+            .replace(/[()]+/g, "");
+            const output = schoner.split(". ");
+            const object = {lat: output[0], long: output[1]};
+            coordinatesArray.push(object);
+        }
+}
+    return coordinatesArray; 
+}
+
+
+//Covert coordinates that are in a 'Degree, Minutes, Seconds'-format to a usable lat and long format
+//Code adapted from: https://stackoverflow.com/questions/1140189/converting-latitude-and-longitude-to-decimal-values
+function convertDMS2DD(latDegrees, latMinutes, latSeconds, longDegrees, longMinutes, longSeconds) {
+    const ddLat = latDegrees + latMinutes/60 + latSeconds/(60*60);
+    const ddLong = longDegrees + longMinutes/60 + longSeconds/(60*60);
+    const obj = {lat: ddLat.toFixed(6), long: ddLong.toFixed(6)};
+    return obj;
 }
