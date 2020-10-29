@@ -1,3 +1,4 @@
-/data
+/rdw-data/data
+/survey-cleaning/data
 .jshintrc
 .DS_Store
