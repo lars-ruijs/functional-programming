@@ -16,8 +16,10 @@ const cleanedSubjects = filterEmptyStrings("leuksteCMDVak");
 filterSubjects(cleanedSubjects);
 console.log(cleanedSubjects);
 
-//Filter all empty and irrelevant strings from "leuksteCMDVak" and store the array in 'cleanedSubjects'
+//Filter all empty and irrelevant strings from "geboorteplaats" and store the array in 'dirtyCoordinates'
 const dirtyCoordinates = filterEmptyStrings("geboorteplaats");
+
+//Clean the coordinates to valid decimal based coordinates and store the generated array of objects in 'cleanCoordinates'
 const cleanCoordinates = getCoordinates(dirtyCoordinates);
 console.log(cleanCoordinates);
 
@@ -37,13 +39,13 @@ function filterEmptyStrings(columnName) {
     return deData.map(surveyObject => surveyObject[columnName].toLowerCase()).filter(isEmpty);
 }
 
-//Checks if items in the array are not empty or irrelevant
+//Check if items in the array are not empty or irrelevant
 function isEmpty(value) {
     if (value && value != "x" && value != "idk" && value != "kan niet kiezen") {
-        return true; //Return value if it's not empty and is interesting
+        return true; //Return value if it's not empty and if it's relevant
     }
     else {
-        return false; //Remove values that are empty or that are not interesting
+        return false; //Remove values that are empty or that are irrelevant
     }
 }
 
@@ -94,7 +96,7 @@ function getCoordinates(dirtyCoordinates) {
         //RegEx code adapted from: https://stackoverflow.com/questions/7760262/replace-both-double-and-single-quotes-in-javascript-string
         if (dirtyCoordinates[coor].includes("'")) {
             const schoner = dirtyCoordinates[coor]
-            .replace(/["EN]+/g, "")
+            .replace(/["en]+/g, "")
             .replace(/[°']+/g, " ")
             .split(" ");
             const dms = schoner.map(a => parseFloat(a));    
@@ -115,7 +117,7 @@ function getCoordinates(dirtyCoordinates) {
 }
 
 
-//Covert coordinates that are in a 'Degree, Minutes, Seconds'-format to a usable lat and long format
+//Covert coordinates that are in a 'Degree, Minutes, Seconds'-format to a usable lat and long (decimal) format
 //Code adapted from: https://stackoverflow.com/questions/1140189/converting-latitude-and-longitude-to-decimal-values
 function convertDMS2DD(latDegrees, latMinutes, latSeconds, longDegrees, longMinutes, longSeconds) {
     const ddLat = latDegrees + latMinutes/60 + latSeconds/(60*60);
