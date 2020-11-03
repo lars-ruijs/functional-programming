@@ -7,11 +7,30 @@ getData(endpoint)
 	return result.json();
 })
 .then(RDWData => {
+	// All RDW Data from the P+R Dataset
 	console.log(RDWData);
+
+	// Get the areaDesc (name of parking facility) of the dataset
 	const areaDesc = filterData(RDWData, "areadesc");
 	console.log(areaDesc);
+
+	// Get the parking locations city names
 	const steden = getCityName(areaDesc);
 	console.log(steden);
+
+	// Get the opening year of a parking facility
+	const years = getYear(filterData(RDWData, "startdataarea"));
+	console.log(years);
+
+	// Create an empty array (used for storing objects later)
+	const allRelevantData = [];
+
+	// For/in loop that creates an object with the filtered data and pushes it in the 'allRelevantData' array.
+	for (const item in areaDesc) {
+		const object = {prName: areaDesc[item], cityName: steden[item], openSince: years[item]};
+		allRelevantData.push(object);
+	}
+	console.log(allRelevantData);
 });
 
 // Fetch the data from a given url (endpoint)
@@ -36,6 +55,12 @@ function isEmpty(value) {
 
 // Extract the city names of P+R locations that are inside parenthesis and return those as a new array
 // RegEx code adapted from https://stackoverflow.com/questions/17779744/regular-expression-to-get-a-string-between-parentheses-in-javascript
-function getCityName(dataItem) {
-	return dataItem.map(item => /\(([^)]+)\)/.exec(item)[1]);
+function getCityName(dataItems) {
+	return dataItems.map(item => /\(([^)]+)\)/.exec(item)[1]);
+}
+
+// Get the opening year of a P+R facility
+// Used substring() documentation from MDN https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring
+function getYear(dataItems) {
+	return dataItems.map(item => +item.substring(0, 4));
 }
