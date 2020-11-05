@@ -6,7 +6,7 @@ More information about De Volkskrant can be found at [Wikipedia (English)](https
 
 All of the RDW datasets can be found [here](https://opendata.rdw.nl/browse).
 
-## Concept
+## 💡 Concept
 
 ### Research question
 
@@ -86,20 +86,20 @@ Sketch with the option to filter displayed P+R facilities by travel time for the
 
 <br>
 
-![digitale schets met kaart als achtergrond](https://user-images.githubusercontent.com/60745347/98243811-c3656d80-1f6e-11eb-883d-a8557f75133b.png)
+<img src="https://user-images.githubusercontent.com/60745347/98243811-c3656d80-1f6e-11eb-883d-a8557f75133b.png" alt="digitale schets" width="80%" />
 
 Digital sketch based on the second draft.
 
 <br>
 
-## Data cleaning with functional patterns
+## 🛁 Data cleaning with functional patterns
 
 This function cleans the coordinates in the column "place of birth". First of all, an array is created with `map()` of the values in the column. This array is directly filtered on empty values using `filter()`. Then a function checks if the coordinates need to be converted from the "degree, minute and seconds"-format to a decimal format. If so, it does so and places the result as an object in a new array. If the coordinate doesn't have to get converted, weird characters will be filtered out and the string coordinates will be cut into an object with a lattitude and longitude. This object is placed back in the array.
 Finally the function removes 11 invalid coordinates. These are for example coordinates with invalid degree indicators or coordinates that only contain a lattitude (or longitude).
 
 You can view that code [here](https://github.com/lars-ruijs/functional-programming/blob/4ab79d869b5386325b86b3ad64bb34921343c8c3/survey-cleaning/scripts/script.js#L84-L125).
 
-## Sources
+## 🗒 Sources
 
 I've used the following sources while working on my project:
 
@@ -113,3 +113,7 @@ I've used the following sources while working on my project:
 - **Replacing quotes and degree characters** adapted RegEx code from a StackOverflow [answer](https://stackoverflow.com/questions/7760262/replace-both-double-and-single-quotes-in-javascript-string) by Joe.
 - **Using `test()` to check if a string contains letters** code adapted from a StackOverflow [answer](https://stackoverflow.com/questions/23476532/check-if-string-contains-only-letters-in-javascript/23476587) by Oriol. Used additional `test()` [documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test) from MDN.
 - **Convert coordinates in Degree, Minute, Seconds format to decimal values** code adapted from a StackOverflow [answer](https://stackoverflow.com/questions/1140189/converting-latitude-and-longitude-to-decimal-values) by Gavin Miller.
+
+## 🔗 License
+
+This repository is licensed as [MIT](https://github.com/lars-ruijs/functional-programming/blob/main/LICENSE) • ©️ 2020 Lars Ruijs
