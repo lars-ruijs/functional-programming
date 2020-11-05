@@ -1,8 +1,23 @@
 // Fetch-code based on a lecture by Laurens 
 // Endpoint of Park and Ride locations in the Netherlands
-const endpoint = "https://opendata.rdw.nl/resource/6wzd-evwu.json";
+const PenR = "https://opendata.rdw.nl/resource/6wzd-evwu.json";
+const apiHereKey = "";
 
-getData(endpoint)
+// HERE API to find the coordinates of a city
+function getLoc(cityName) {
+	let positie = "";
+	getData(`https://geocode.search.hereapi.com/v1/geocode?apiKey=${apiHereKey}&q=${cityName},%20NL`)
+	.then(result => {
+		return result.json();
+	})
+
+	.then(coorData => {
+		positie = coorData.items[0].position;
+	});
+	return positie;
+}
+	
+getData(PenR)
 	.then(result => {
 	return result.json();
 })
@@ -15,8 +30,23 @@ getData(endpoint)
 	console.log(areaDesc);
 
 	// Get the parking locations city names
-	const steden = getCityName(areaDesc);
-	console.log(steden);
+	const stadNaam = getCityName(areaDesc);
+
+	// Remove duplicate city names with filter
+	// Adapted code from: https://medium.com/dailyjs/how-to-remove-array-duplicates-in-es6-5daa8789641c
+	const enkelSteden= stadNaam.filter((item, index) => stadNaam.indexOf(item) === index);
+	console.log(stadNaam);
+	console.log(enkelSteden);
+
+	getData(`https://geocode.search.hereapi.com/v1/geocode?apiKey=${apiHereKey}&q=${enkelSteden[0]},%20NL`)
+	.then(result => {
+		return result.json();
+	})
+
+	.then(coorData => {
+		const position = coorData.items[0].position;
+		console.log(position);
+	});
 
 	// Get the opening year of a parking facility
 	const years = getYear(filterData(RDWData, "startdataarea"));
@@ -27,7 +57,7 @@ getData(endpoint)
 
 	// For/in loop that creates an object with the filtered data and pushes it in the 'allRelevantData' array.
 	for (const item in areaDesc) {
-		const object = {prName: areaDesc[item], cityName: steden[item], openSince: years[item]};
+		const object = {prName: areaDesc[item], cityName: stadNaam[item], openSince: years[item]};
 		allRelevantData.push(object);
 	}
 	console.log(allRelevantData);
