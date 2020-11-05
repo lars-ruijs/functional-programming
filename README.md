@@ -73,8 +73,24 @@ When a dataset contains empty values, I will either not use the empty cells or i
 
 ### Sketch of my concept (so far)
 
-I would like to visualise the spread of P+R locations across the country and show the distance between a city centre and a P+R location. The example below is without a map background. I could add one if it helps with the visualisation.  
-![schets](https://user-images.githubusercontent.com/60745347/97630497-fe781600-1a2f-11eb-847f-fdda331a2977.JPG)
+I would like to visualise the spread of P+R locations across the country and show the distance between a city centre and a P+R location. The first example below is without a map background. The other sketches do have a simple map as background, because I think this helps to visualize the spread of P+R locations over smaller places in the country.  
+<br>
+
+![schets zonder kaart als achtergrond](https://user-images.githubusercontent.com/60745347/97630497-fe781600-1a2f-11eb-847f-fdda331a2977.JPG)
+
+<br>
+
+![schets met kaart als achtergrond](https://user-images.githubusercontent.com/60745347/98243611-7a151e00-1f6e-11eb-9bf0-cf9d05fffd91.jpg)
+
+Sketch with the option to filter displayed P+R facilities by travel time for the last part of the journey (journey between parking lot and city center).
+
+<br>
+
+![digitale schets met kaart als achtergrond](https://user-images.githubusercontent.com/60745347/98243811-c3656d80-1f6e-11eb-883d-a8557f75133b.png)
+
+Digital sketch based on the second draft.
+
+<br>
 
 ## Data cleaning with functional patterns
 
