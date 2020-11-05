@@ -1,4 +1,5 @@
 /rdw-data/data
 /survey-cleaning/data
+/rdw-data/scripts/apikey.js
 .jshintrc
 .DS_Store

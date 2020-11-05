@@ -1,7 +1,10 @@
 // Fetch-code based on a lecture by Laurens 
 // Endpoint of Park and Ride locations in the Netherlands
 const PenR = "https://opendata.rdw.nl/resource/6wzd-evwu.json";
-const apiHereKey = "";
+
+// API Key for HERE geocoding serivces. Stored in a separate file to prevent abuse via GitHub. 
+// HERE API: https://developer.here.com/
+const apiHereKey = api;
 
 // HERE API to find the coordinates of a city
 function getLoc(cityName) {
