@@ -73,7 +73,15 @@ When a dataset contains empty values, I will either not use the empty cells or i
 
 ### Sketch of my concept (so far)
 
-I would like to visualise the spread of P+R locations across the country and show the distance between a city centre and a P+R location. The first example below is without a map background. The other sketches do have a simple map as background, because I think this helps to visualize the spread of P+R locations over smaller places in the country.  
+I would like to visualise the spread of P+R locations across the country and show the distance between a city centre and a P+R location. The first example below is without a map background. The other sketches do have a simple map as background, because I think this helps to visualize the spread of P+R locations over smaller places in the country.
+<br>
+
+**Hoe zijn P+R Locaties verdeeld over Nederland?**
+
+- Hoe ver zijn de P+R locaties van het centrum van een stad?
+- Welke gemeente heeft de meeste P+R locaties?
+- Wat is de grootste P+R locatie?
+
 <br>
 
 ![schets zonder kaart als achtergrond](https://user-images.githubusercontent.com/60745347/97630497-fe781600-1a2f-11eb-847f-fdda331a2977.JPG)
