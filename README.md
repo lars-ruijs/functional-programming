@@ -54,7 +54,6 @@ You can view the data inside this data set [here](https://opendata.rdw.nl/Parker
 - `AreaManagerId` provides an identification number of a parking site administrator. <br> _Example output: `2448`;_ <br><br>
 - `AreaManagerDesc` shows the name of the owner of a parking location. <br> _Example output: `"Hoorn"`;_ <br><br>
 
-<br><br>
 If it is possible I would like to include data about train stations in the Netherlands. I found an API from the NS (the Dutch Railway operator) that contains information about all train stations.
 
 **From dataset "Stations" by NS:**
